@@ -286,33 +286,85 @@ functions_form(Line, Module, Def, Defmacro, Exports, Body, Deprecated) ->
   [{attribute, Line, export, lists:sort([{'__info__', 1} | Exports])}, Spec, Info | Body].
 
 add_info_function(Line, Module, Def, Defmacro, Deprecated) ->
-  AllowedAttrs = [attributes, compile, functions, macros, md5, module, deprecated],
-  AllowedArgs = lists:map(fun(Atom) -> {atom, Line, Atom} end, AllowedAttrs),
-
   Spec =
-    {attribute, Line, spec, {{'__info__', 1},
-      [{type, Line, 'fun', [
+    {attribute, Line, spec, {{'__info__', 1}, [
+      {type, Line, 'fun', [
         {type, Line, product, [
-          {type, Line, union, AllowedArgs}
+          {atom, Line, attributes}
         ]},
-        {type, Line, union, [
-          {type, Line, atom, []},
-          {type, Line, list, [
-            {type, Line, union, [
-              {type, Line, tuple, [
-                {type, Line, atom, []},
-                {type, Line, any, []}
-              ]},
-              {type, Line, tuple, [
-                {type, Line, atom, []},
-                {type, Line, byte, []},
-                {type, Line, integer, []}
-              ]}
-            ]}
+        {type, Line, list, [
+          {type, Line, tuple, [
+            {type, Line, atom, []},
+            {type, Line, any, []}
           ]}
         ]}
-      ]}]
-    }},
+      ]},
+
+      {type, Line, 'fun', [
+        {type, Line, product, [
+          {atom, Line, compile}
+        ]},
+        {type, Line, list, [
+          {type, Line, tuple, [
+            {type, Line, atom, []},
+            {type, Line, any, []}
+          ]}
+        ]}
+      ]},
+
+      {type, Line, 'fun', [
+        {type, Line, product, [
+          {atom, Line, deprecated}
+        ]},
+        {type, Line, list, [
+          {type, Line, tuple, [
+            {type, Line, tuple, [
+              {type, Line, atom, []},
+              {type, Line, non_neg_integer, []}
+            ]},
+            {type, Line, binary, []}
+          ]}
+        ]}
+      ]},
+
+      {type, Line, 'fun', [
+        {type, Line, product, [
+          {atom, Line, functions}
+        ]},
+        {type, Line, list, [
+          {type, Line, tuple, [
+            {type, Line, atom, []},
+            {type, Line, non_neg_integer, []}
+          ]}
+        ]}
+      ]},
+
+      {type, Line, 'fun', [
+        {type, Line, product, [
+          {atom, Line, macros}
+        ]},
+        {type, Line, list, [
+          {type, Line, tuple, [
+            {type, Line, atom, []},
+            {type, Line, non_neg_integer, []}
+          ]}
+        ]}
+      ]},
+
+      {type, Line, 'fun', [
+        {type, Line, product, [
+          {atom, Line, md5}
+        ]},
+        {type, Line, binary, []}
+      ]},
+
+      {type, Line, 'fun', [
+        {type, Line, product, [
+          {atom, Line, module}
+        ]},
+        {atom, Line, Module}
+      ]}
+    ]}},
 
   Info =
     {function, 0, '__info__', 1, [
