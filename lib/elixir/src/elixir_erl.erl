@@ -287,117 +287,84 @@ functions_form(Line, Module, Def, Defmacro, Exports, Body, Deprecated) ->
 
 add_info_function(Line, Module, Def, Defmacro, Deprecated) ->
   Spec =
-    %% TODO: Remove this check once we depend only on 20
-    case erlang:system_info(otp_release) of
-      "19" ->
-        AllowedAttrs = [attributes, compile, functions, macros, md5, module, deprecated],
-        AllowedArgs = lists:map(fun(Atom) -> {atom, Line, Atom} end, AllowedAttrs),
+    {attribute, Line, spec, {{'__info__', 1}, [
+      {type, Line, 'fun', [
+        {type, Line, product, [
+          {atom, Line, attributes}
+        ]},
+        {type, Line, list, [
+          {type, Line, tuple, [
+            {type, Line, atom, []},
+            {type, Line, any, []}
+          ]}
+        ]}
+      ]},
 
-        {attribute, Line, spec, {{'__info__', 1},
-          [{type, Line, 'fun', [
-            {type, Line, product, [
-              {type, Line, union, AllowedArgs}
-            ]},
-            {type, Line, union, [
+      {type, Line, 'fun', [
+        {type, Line, product, [
+          {atom, Line, compile}
+        ]},
+        {type, Line, list, [
+          {type, Line, tuple, [
+            {type, Line, atom, []},
+            {type, Line, any, []}
+          ]}
+        ]}
+      ]},
+
+      {type, Line, 'fun', [
+        {type, Line, product, [
+          {atom, Line, deprecated}
+        ]},
+        {type, Line, list, [
+          {type, Line, tuple, [
+            {type, Line, tuple, [
               {type, Line, atom, []},
-              {type, Line, binary, []},
-              {type, Line, list, [
-                {type, Line, union, [
-                  {type, Line, tuple, [
-                    {type, Line, atom, []},
-                    {type, Line, any, []}
-                  ]},
-                  {type, Line, tuple, [
-                    {type, Line, atom, []},
-                    {type, Line, byte, []},
-                    {type, Line, integer, []}
-                  ]}
-                ]}
-              ]}
-            ]}
-          ]}]
-        }};
-
-      _ ->
-        {attribute, Line, spec, {{'__info__', 1}, [
-          {type, Line, 'fun', [
-            {type, Line, product, [
-              {atom, Line, attributes}
-            ]},
-            {type, Line, list, [
-              {type, Line, tuple, [
-                {type, Line, atom, []},
-                {type, Line, any, []}
-              ]}
-            ]}
-          ]},
-
-          {type, Line, 'fun', [
-            {type, Line, product, [
-              {atom, Line, compile}
-            ]},
-            {type, Line, list, [
-              {type, Line, tuple, [
-                {type, Line, atom, []},
-                {type, Line, any, []}
-              ]}
-            ]}
-          ]},
-
-          {type, Line, 'fun', [
-            {type, Line, product, [
-              {atom, Line, deprecated}
-            ]},
-            {type, Line, list, [
-              {type, Line, tuple, [
-                {type, Line, tuple, [
-                  {type, Line, atom, []},
-                  {type, Line, arity, []}
-                ]},
-                {type, Line, binary, []}
-              ]}
-            ]}
-          ]},
-
-          {type, Line, 'fun', [
-            {type, Line, product, [
-              {atom, Line, functions}
-            ]},
-            {type, Line, list, [
-              {type, Line, tuple, [
-                {type, Line, atom, []},
-                {type, Line, arity, []}
-              ]}
-            ]}
-          ]},
-
-          {type, Line, 'fun', [
-            {type, Line, product, [
-              {atom, Line, macros}
-            ]},
-            {type, Line, list, [
-              {type, Line, tuple, [
-                {type, Line, atom, []},
-                {type, Line, arity, []}
-              ]}
-            ]}
-          ]},
-
-          {type, Line, 'fun', [
-            {type, Line, product, [
-              {atom, Line, md5}
+              {type, Line, arity, []}
             ]},
             {type, Line, binary, []}
-          ]},
-
-          {type, Line, 'fun', [
-            {type, Line, product, [
-              {atom, Line, module}
-            ]},
-            {atom, Line, Module}
           ]}
-        ]}}
-    end,
+        ]}
+      ]},
+
+      {type, Line, 'fun', [
+        {type, Line, product, [
+          {atom, Line, functions}
+        ]},
+        {type, Line, list, [
+          {type, Line, tuple, [
+            {type, Line, atom, []},
+            {type, Line, arity, []}
+          ]}
+        ]}
+      ]},
+
+      {type, Line, 'fun', [
+        {type, Line, product, [
+          {atom, Line, macros}
+        ]},
+        {type, Line, list, [
+          {type, Line, tuple, [
+            {type, Line, atom, []},
+            {type, Line, arity, []}
+          ]}
+        ]}
+      ]},
+
+      {type, Line, 'fun', [
+        {type, Line, product, [
+          {atom, Line, md5}
+        ]},
+        {type, Line, binary, []}
+      ]},
+
+      {type, Line, 'fun', [
+        {type, Line, product, [
+          {atom, Line, module}
+        ]},
+        {atom, Line, Module}
+      ]}
+    ]}},
 
   Info =
     {function, 0, '__info__', 1, [
