@@ -300,6 +300,7 @@ add_info_function(Line, Module, Def, Defmacro, Deprecated) ->
             ]},
             {type, Line, union, [
               {type, Line, atom, []},
+              {type, Line, binary, []},
               {type, Line, list, [
                 {type, Line, union, [
                   {type, Line, tuple, [
@@ -351,7 +352,7 @@ add_info_function(Line, Module, Def, Defmacro, Deprecated) ->
               {type, Line, tuple, [
                 {type, Line, tuple, [
                   {type, Line, atom, []},
-                  {type, Line, non_neg_integer, []}
+                  {type, Line, arity, []}
                 ]},
                 {type, Line, binary, []}
               ]}
@@ -365,7 +366,7 @@ add_info_function(Line, Module, Def, Defmacro, Deprecated) ->
             {type, Line, list, [
               {type, Line, tuple, [
                 {type, Line, atom, []},
-                {type, Line, non_neg_integer, []}
+                {type, Line, arity, []}
               ]}
             ]}
           ]},
@@ -377,7 +378,7 @@ add_info_function(Line, Module, Def, Defmacro, Deprecated) ->
             {type, Line, list, [
               {type, Line, tuple, [
                 {type, Line, atom, []},
-                {type, Line, non_neg_integer, []}
+                {type, Line, arity, []}
               ]}
             ]}
           ]},

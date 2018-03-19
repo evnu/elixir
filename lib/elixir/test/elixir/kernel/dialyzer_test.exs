@@ -47,25 +47,9 @@ defmodule Kernel.DialyzerTest do
       |> Path.join("plt")
       |> String.to_charlist()
 
-    warnings = Map.get(context, :warnings, [])
-
     File.cp!(context.base_plt, plt)
-
-    dialyzer = [
-      analysis_type: :succ_typings,
-      check_plt: false,
-      files_rec: [dir],
-      plts: [plt],
-      warnings: warnings
-    ]
-
+    dialyzer = [analysis_type: :succ_typings, check_plt: false, files_rec: [dir], plts: [plt]]
     {:ok, [outdir: dir, dialyzer: dialyzer]}
-  end
-
-  @tag warnings: [:overspecs]
-  test "no warnings on overspecs", context do
-    copy_beam!(context, Dialyzer.RemoteCall)
-    assert_dialyze_no_warnings!(context)
   end
 
   test "no warnings on valid remote calls", context do
@@ -143,8 +127,8 @@ defmodule Kernel.DialyzerTest do
     File.cp!(Path.join(context.base_dir, name), Path.join(context.outdir, name))
   end
 
-  defp assert_dialyze_no_warnings!(%{dialyzer: dialyzer}) do
-    case dialyzer_run(dialyzer) do
+  defp assert_dialyze_no_warnings!(context) do
+    case dialyzer_run(context.dialyzer) do
       [] ->
         :ok
 
