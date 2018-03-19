@@ -78,7 +78,7 @@ defmodule Mix.Tasks.Deps.Tree do
         # Do not show dependencies if they were
         # already shown at the top level
         deps =
-          if not dep.top_level && find_dep(top_level, app) do
+          if not dep.top_level || !find_dep(top_level, app) do
             []
           else
             find_dep(deps, app).deps
